@@ -6,7 +6,7 @@ load_dotenv()
 # get url from env file
 MONGO_URL = os.getenv("MONGO_URL")
 # create client in mongodb
-client = MongoClient(MONGO_URL)
+client = MongoClient(MONGO_URL) # create connection
 # create db 
 db = client["token_ease_db"]
 # create collections 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter , HTTPException , Response
-from app.schema.organization_schema import OrganizationCreate , OrganizationLogin
-from app.database import org_collection # create connection with mongodb 
-from app.utils import get_password_hash , verify_password , create_access_token
+from schema.organization_schema import OrganizationCreate , OrganizationLogin
+from database import org_collection # create connection with mongodb 
+from utils import get_password_hash , verify_password , create_access_token
 
 router = APIRouter()
 
@@ -31,7 +31,7 @@ def login(user: OrganizationLogin , response: Response):
     access_token = create_access_token(data={"sub":str(db_user["_id"])})
     response.set_cookie(
         key = "access_token",
-        value= f"Bearer {access_token}",
+        value= access_token,
         httponly= True , 
         max_age=3600 , 
         samesite="lax",

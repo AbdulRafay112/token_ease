@@ -1,7 +1,7 @@
 from fastapi import APIRouter , HTTPException , Response
-from schema.organization_schema import OrganizationCreate , OrganizationLogin
-from database import org_collection # create connection with mongodb 
-from utils import get_password_hash , verify_password , create_access_token
+from app.schema.organization_schema import OrganizationCreate , OrganizationLogin
+from app.database import org_collection # create connection with mongodb 
+from app.utils import get_password_hash , verify_password , create_access_token
 
 router = APIRouter()
 

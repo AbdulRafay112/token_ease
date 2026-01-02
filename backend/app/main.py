@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from routes.organization_routes import router
 from routes.department_routes import department_app
+from routes.token_routes import token_route
 app = FastAPI()
 
 # class Custom_Exception():
@@ -31,5 +32,6 @@ def main():
 # exception_handler(department_app)
 app.include_router(router)
 app.include_router(department_app)
+app.include_router(token_route)
 if __name__ == "__main__":
     main()

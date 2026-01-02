@@ -1,10 +1,8 @@
 from fastapi import APIRouter,Request,HTTPException,Depends
-from fastapi.responses import JSONResponse
 from jose import jwt 
 from dotenv import load_dotenv
 import os 
 from database import org_collection
-from schema.department_schema import DepartmentCreate
 from database import dept_collection
 from bson import ObjectId
 from bson import json_util
@@ -35,7 +33,7 @@ def verify_organization(request:Request):
 department_app = APIRouter(prefix="/department",dependencies=[Depends(verify_organization)])
 
 @department_app.get("/")
-def get_department(request:Request):
+def get_departments(request:Request):
             user_id = request.state.user_id
             departments = dept_collection.find({
                    "org_id" : user_id
@@ -51,11 +49,11 @@ async def add_department(request:Request):
             body = await request.json()
             name = body["name"]
             user_id = request.state.user_id
-            counter_exist = dept_collection.find_one({
+            department_exist = dept_collection.find_one({
                   "name" : name,
                   "org_id" : user_id
             })
-            if counter_exist:
+            if department_exist:
                   raise HTTPException(status_code=400,detail=f"{name} exists")
             created_department = dept_collection.insert_one({
                   "name" : name,
@@ -68,5 +66,35 @@ async def add_department(request:Request):
                   "the department is",str(created_department.inserted_id)
             }
 
+@department_app.patch("/{dept_id}")
+def get_department_details(dept_id):
+            try:
+                department = dept_collection.find_one({
+                       "_id" : ObjectId(dept_id)
+                })
+                return parse_json(department)
+            except Exception as e:
+                raise HTTPException(status_code=400,detail="Invalid Id")
+            
+# error hai abhi
+@department_app.put("/{dept_id}")
+async def update_department_details(dept_id,request:Request):
+            body = await request.json()
+            name = body["name"]
+            user_id = request.state.user_id
+            department_exist = dept_collection.find_one({
+                  "name" : name,
+                  "org_id" : user_id
+            })
+            if department_exist:
+                  raise HTTPException(status_code=400,detail=f"{name} exists")
+            department_to_update = dept_collection.find_one_and_update({
+                   "_id" : ObjectId(dept_id)
+            },{
+                   "$set" : {
+                          "name" : name
+                   }
+            })
+            return parse_json(department_to_update)
 
 

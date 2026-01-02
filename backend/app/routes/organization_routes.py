@@ -5,7 +5,7 @@ from app.utils import get_password_hash , verify_password , create_access_token
 
 router = APIRouter()
 
-@router.post("/signup")
+@router.post("/signup") 
 def signup(org: OrganizationCreate):
     existing_user = org_collection.find_one({"user_name": org.user_name})
     if existing_user:

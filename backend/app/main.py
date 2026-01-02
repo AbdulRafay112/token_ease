@@ -1,9 +1,14 @@
 from fastapi import FastAPI ,Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+<<<<<<< HEAD
 from routes.organization_routes import router
 from routes.department_routes import department_app
 from routes.token_routes import token_route
+=======
+from app.routes.organization_routes import router
+from app.routes.department_routes import department_app
+>>>>>>> f117e09772a76041024dbe9e602e2324e9468a0c
 app = FastAPI()
 
 # class Custom_Exception():

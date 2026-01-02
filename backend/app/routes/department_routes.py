@@ -1,33 +1,15 @@
 from fastapi import APIRouter,Request,HTTPException,Depends
+<<<<<<< HEAD
 from jose import jwt 
 from dotenv import load_dotenv
 import os 
 from database import org_collection
 from database import dept_collection
+=======
+from app.database import  dept_collection
+>>>>>>> f117e09772a76041024dbe9e602e2324e9468a0c
 from bson import ObjectId
-from bson import json_util
-import json
-load_dotenv()
-SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-ALGORITHM = "HS256"
-
-
-def parse_json(data):
-    return json.loads(json_util.dumps(data))
-
-def verify_organization(request:Request):
-            token = request.cookies.get("access_token")
-            if not token:
-                   raise HTTPException(status_code=400,detail="Invalid Token")
-            try:
-                data = jwt.decode(token,SECRET_KEY,algorithms=ALGORITHM)
-            except Exception as e:
-                raise HTTPException(status_code=400,detail="Invalid Token")
-            authorize_user = org_collection.find_one({"_id": ObjectId(data["sub"])})
-            if not authorize_user:
-                raise HTTPException(status_code=400,detail="Invalid Token")
-            request.state.user_id = authorize_user['_id']
-
+from app.utils import parse_json , verify_organization
 
 
 department_app = APIRouter(prefix="/department",dependencies=[Depends(verify_organization)])
@@ -53,8 +35,13 @@ async def add_department(request:Request):
                   "name" : name,
                   "org_id" : user_id
             })
+<<<<<<< HEAD
             if department_exist:
                   raise HTTPException(status_code=400,detail=f"{name} exists")
+=======
+            if counter_exist:
+                  raise HTTPException(status_code=400,detail=f"{name} department already exists")
+>>>>>>> f117e09772a76041024dbe9e602e2324e9468a0c
             created_department = dept_collection.insert_one({
                   "name" : name,
                   "org_id" : ObjectId(user_id),
@@ -63,7 +50,7 @@ async def add_department(request:Request):
                   "status" : True
             })
             return {
-                  "the department is",str(created_department.inserted_id)
+                  "the department added successfully", str(created_department.inserted_id)
             }
 
 @department_app.patch("/{dept_id}")

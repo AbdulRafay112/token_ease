@@ -1,11 +1,9 @@
 from fastapi import APIRouter,Request,HTTPException,Depends
 from app.database import  dept_collection
-from bson import ObjectId
-from app.utils import parse_json , verify_organization
-
+from bson import ObjectId 
+from app.utils import verify_organization , parse_json
 
 department_app = APIRouter(prefix="/department",dependencies=[Depends(verify_organization)])
-
 @department_app.get("/")
 def get_department(request:Request):
             user_id = request.state.user_id
@@ -17,17 +15,16 @@ def get_department(request:Request):
                   raise HTTPException(status_code=200,detail="No Departments Yet")
             return parse_json(listed_departments)
         
-
 @department_app.post("/")
 async def add_department(request:Request):
             body = await request.json()
             name = body["name"]
             user_id = request.state.user_id
-            counter_exist = dept_collection.find_one({
+            department_exist = dept_collection.find_one({
                   "name" : name,
                   "org_id" : user_id
             })
-            if counter_exist:
+            if department_exist:
                   raise HTTPException(status_code=400,detail=f"{name} department already exists")
             created_department = dept_collection.insert_one({
                   "name" : name,

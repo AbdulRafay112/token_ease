@@ -5,8 +5,9 @@ from jose import jwt
 from dotenv import load_dotenv
 import os 
 import json 
-from bson import json_util , ObjectId
 from app.database import org_collection
+from bson import ObjectId , json_util 
+
 # === password hash logic ===
 pwd_context = CryptContext(schemes=["bcrypt"] , deprecated = "auto")
 def get_password_hash(password):
@@ -41,12 +42,13 @@ def verify_organization(request: Request):
     """Verify organization based on cookie"""
     token = request.cookies.get("access_token")
     if not token:
-        raise HTTPException(status_code=400 , detail="Token not found")
+        raise HTTPException(status_code=400 , detail="Invalid Token")
     try:
         data = jwt.decode(token , SECRET_KEY , algorithms=ALGORITHM)
     except Exception as e:
         raise HTTPException(status_code=400 , detail="Invalid Token")
     authorize_user = org_collection.find_one({"_id":ObjectId(data["sub"])})
     if not authorize_user:
-        raise HTTPException(status_code=400 , detail="No user found")
+        raise HTTPException(status_code=400 , detail="Invalid Token")
     request.state.user_id = authorize_user["_id"]
+

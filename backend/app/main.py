@@ -5,14 +5,6 @@ from app.routes.organization_routes import router
 from app.routes.department_routes import department_app
 app = FastAPI()
 
-# class Custom_Exception():
-#     status_code = 404
-#     detail = "Invalid Token"
-
-# def exception_handler(app:FastAPI):
-#     @app.exception_handler(Custom_Exception)
-#     async def custom_exception_handler(request:Request,exception:Exception):
-#         return JSONResponse(status_code=exception.status_code,content={"error":exception.detail})
 
 
 def main(): 
@@ -27,8 +19,7 @@ def main():
         allow_methods=["*"],
         allow_headers=["*"],
     )
-# exception_handler(app)
-# exception_handler(department_app)
+
 app.include_router(router)
 app.include_router(department_app)
 if __name__ == "__main__":

@@ -1,15 +1,7 @@
 from fastapi import APIRouter,Request,HTTPException,Depends
-<<<<<<< HEAD
-from jose import jwt 
-from dotenv import load_dotenv
-import os 
-from database import org_collection
-from database import dept_collection
-=======
-from app.database import  dept_collection
->>>>>>> f117e09772a76041024dbe9e602e2324e9468a0c
+from database import  dept_collection
 from bson import ObjectId
-from app.utils import parse_json , verify_organization
+from utils import parse_json , verify_organization
 
 
 department_app = APIRouter(prefix="/department",dependencies=[Depends(verify_organization)])
@@ -35,13 +27,8 @@ async def add_department(request:Request):
                   "name" : name,
                   "org_id" : user_id
             })
-<<<<<<< HEAD
             if department_exist:
-                  raise HTTPException(status_code=400,detail=f"{name} exists")
-=======
-            if counter_exist:
                   raise HTTPException(status_code=400,detail=f"{name} department already exists")
->>>>>>> f117e09772a76041024dbe9e602e2324e9468a0c
             created_department = dept_collection.insert_one({
                   "name" : name,
                   "org_id" : ObjectId(user_id),

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import os 
 import json 
 from bson import json_util , ObjectId
-from app.database import org_collection
+from database import org_collection
 # === password hash logic ===
 pwd_context = CryptContext(schemes=["bcrypt"] , deprecated = "auto")
 def get_password_hash(password):

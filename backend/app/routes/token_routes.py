@@ -6,28 +6,10 @@ from database import org_collection,dept_collection,token_collection
 from bson import ObjectId
 from bson import json_util
 import json
+from utils import parse_json , verify_organization
 load_dotenv()
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = "HS256"
-
-
-def parse_json(data):
-    return json.loads(json_util.dumps(data))
-
-def verify_organization(request:Request):
-            token = request.cookies.get("access_token")
-            if not token:
-                   raise HTTPException(status_code=400,detail="Invalid Token")
-            try:
-                data = jwt.decode(token,SECRET_KEY,algorithms=ALGORITHM)
-            except Exception as e:
-                raise HTTPException(status_code=400,detail="Invalid Token")
-            authorize_user = org_collection.find_one({"_id": ObjectId(data["sub"])})
-            if not authorize_user:
-                raise HTTPException(status_code=400,detail="Invalid Token")
-            request.state.user_id = authorize_user['_id']
-
-
 
 token_route = APIRouter(prefix="/token",dependencies=[Depends(verify_organization)])
 

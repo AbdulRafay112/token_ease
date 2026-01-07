@@ -7,6 +7,7 @@ router = APIRouter()
 
 @router.post("/signup") 
 def signup(org: OrganizationCreate):
+    print(org)
     existing_user = org_collection.find_one({"user_name": org.user_name})
     if existing_user:
         raise HTTPException(status_code=400 , detail = "user name already exists")
@@ -22,11 +23,11 @@ def signup(org: OrganizationCreate):
     }
 
 @router.post("/login")
-def login(user: OrganizationLogin , response: Response):
-    db_user = org_collection.find_one({"user_name":user.user_name})
+async def login(response: Response,org:OrganizationLogin):
+    db_user = org_collection.find_one({"user_name":org.user_name})
     if not db_user:
         raise HTTPException(status_code = 401 , detail = "invalid user name or password")
-    if not verify_password(user.password , db_user["password"]):
+    if not verify_password(org.password , db_user["password"]):
         raise HTTPException(status_code=401 , detail="invalid user name or password")
     access_token = create_access_token(data={"sub":str(db_user["_id"])})
     response.set_cookie(

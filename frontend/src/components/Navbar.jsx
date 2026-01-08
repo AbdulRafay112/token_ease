@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import logo from "../assets/logo.png"
 // import '../css/fonts.css'
 function Navbar(){
     return (
@@ -12,10 +11,10 @@ function Navbar(){
         </div>
         <nav className="mx-12 w-[578px] flex items-center">
             <ul>
-                <li className="w-24 h-8 rounded-[8px] bg-[#031273] text-white flex justify-center items-center roboto-font hover:bg-[#020936] ease-in-out duration-100 cursor-pointer font-bold">Home</li>
+                <Link to={'/'}><li className="w-24 h-8 rounded-[8px] bg-[#031273] text-white flex justify-center items-center roboto-font hover:bg-[#020936] ease-in-out duration-100 cursor-pointer font-bold">Home</li></Link>
             </ul>
         </nav>
-        <div className="buttons flex gap-x-8 items-center ml">
+        <div className="buttons flex gap-x-8 items-center">
             <Link to={"/login"}><div className="w-40 h-16 rounded-[8px] bg-[#031273] hover:bg-[#020936] ease-in-out duration-100 text-white text-xl cursor-pointer flex justify-center items-center roboto-font font-bold">Log-in</div></Link>
             <Link to={"/signup"}><div className="w-40 h-16 rounded-[8px] bg-[#031273] hover:bg-[#020936] ease-in-out duration-100 text-white text-xl cursor-pointer flex justify-center items-center roboto-font font-bold">Sign-up</div></Link>
         </div>

@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.organization_routes import router
 from app.routes.department_routes import department_app
+from app.routes.token_routes import token_route
 app = FastAPI()
 
 
@@ -22,5 +23,6 @@ def main():
 
 app.include_router(router)
 app.include_router(department_app)
+app.include_router(token_route)
 if __name__ == "__main__":
     main()

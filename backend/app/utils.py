@@ -17,6 +17,14 @@ def verify_password(plain_password , hashed_password):
     return pwd_context.verify(plain_password , hashed_password)
 
 
+
+# === find organization === 
+def find_organization(user_name: str):
+    """find organization based on that user_name"""
+    return org_collection.find_one({"user_name":user_name})
+
+
+
 # ==== create cookie ==== 
 
 load_dotenv()

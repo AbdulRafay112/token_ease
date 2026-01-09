@@ -1,13 +1,14 @@
 from fastapi import APIRouter , HTTPException , Response
-from app.schema.organization_schema import OrganizationCreate , OrganizationLogin
+from app.schema.organization_schema import OrganizationCreate
 from app.database import org_collection # create connection with mongodb 
 from app.utils import get_password_hash , verify_password , create_access_token
+from app.utils import find_organization
 
 router = APIRouter()
 
 @router.post("/signup") 
 def signup(org: OrganizationCreate):
-    existing_user = org_collection.find_one({"user_name": org.user_name})
+    existing_user = find_organization(org.user_name)
     if existing_user:
         raise HTTPException(status_code=400 , detail = "user name already exists")
     result = org_collection.insert_one({
@@ -22,13 +23,13 @@ def signup(org: OrganizationCreate):
     }
 
 @router.post("/login")
-def login(user: OrganizationLogin , response: Response):
-    db_user = org_collection.find_one({"user_name":user.user_name})
-    if not db_user:
+async def login(response: Response,org:OrganizationCreate):
+    existing_user = find_organization(org.user_name)
+    if not existing_user:
         raise HTTPException(status_code = 401 , detail = "invalid user name or password")
-    if not verify_password(user.password , db_user["password"]):
+    if not verify_password(org.password , existing_user["password"]):
         raise HTTPException(status_code=401 , detail="invalid user name or password")
-    access_token = create_access_token(data={"sub":str(db_user["_id"])})
+    access_token = create_access_token(data={"sub":str(existing_user["_id"])})
     response.set_cookie(
         key = "access_token",
         value= access_token,
@@ -37,4 +38,4 @@ def login(user: OrganizationLogin , response: Response):
         samesite="lax",
         secure=False 
     )
-    return {"message":"login successful" , "org_name" : db_user["user_name"] }
+    return {"message":"login successful" , "org_name" : existing_user["user_name"] }

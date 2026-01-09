@@ -8,12 +8,11 @@ app = FastAPI()
 
 
 
-def main(): 
-    origins = [
-        "http://localhost:3000",  
-        "http://127.0.0.1:3000",
-    ]
-    app.add_middleware(
+origins = [
+        "http://localhost:5173",  
+        "http://127.0.0.1:5173",
+]
+app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,     
         allow_credentials=True,    
@@ -24,5 +23,3 @@ def main():
 app.include_router(router)
 app.include_router(department_app)
 app.include_router(token_route)
-if __name__ == "__main__":
-    main()

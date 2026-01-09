@@ -6,6 +6,4 @@ class OrganizationCreate(BaseModel):
     password: str 
     category: str 
 
-class OrganizationLogin(BaseModel):
-    user_name: str 
-    password: str 
+

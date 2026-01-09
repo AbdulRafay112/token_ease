@@ -1,15 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Bona+Nova+SC&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alatsi&family=Bona+Nova+SC&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mochiy+Pop+One&family=Mochiy+Pop+P+One&family=Righteous&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 .bona-nova-sc-font {
   font-family: "Bona Nova SC", serif;
-  /* font-weight: 800; */
   font-size: 48px;
-  /* font-style:normal; */
 }
-
 .roboto-font{
     font-family: "Roboto",serif;
 }
 .inter-font{
     font-family: "Inter" ,sans-serif ;
 }
+.mochi-pop-p-one-font{
+  font-family: "Mochiy Pop P One", sans-serif;
+}
+
+.mochi-pop-one-font {
+  font-family: "Mochiy Pop One", sans-serif;
+}
+
+.righteous-font {
+  font-family: "Righteous", sans-serif;
+}
+
+.alatsi-font {
+  font-family: "Alatsi", sans-serif;
+}
+
+

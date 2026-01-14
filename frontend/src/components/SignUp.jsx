@@ -56,7 +56,6 @@ function SignUp() {
         }
         const fetchUrl = await fetch('http://127.0.0.1:8000/signup', {
             method: "POST",
-            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -116,8 +115,8 @@ function SignUp() {
                         </svg>
                     </div>
                 </div>}
-                {showAlert && <div className="px-8 py-4 my-4 items-center gap-x-16  absolute left-[30%] rounded-md roboto-font flex text-xl rounded-base bg-green-400" role="alert">
-                    <div className="flex gap-x-2"><span className="font-extrabold">{alertHeader}</span><span className="font-semibold">{alertText}</span> </div><svg onClick={()=>{clearTimeout(); setShowAlert(false)}} className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                {showAlert && <div className={`px-8 py-4 my-4 items-center gap-x-16  absolute left-[30%] rounded-md roboto-font flex text-xl rounded-base ${(alertHeader=='Invalid Input!'|| alertHeader=='Invalid Credentials!')? "bg-red-600" : "bg-green-600"} text-white`} role="alert">
+                    <div className="flex gap-x-2"><span className="font-extrabold">{alertHeader}</span><span className="font-semibold">{alertText}</span> </div><svg onClick={()=>{clearTimeout(); setShowAlert(false)}} className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
                 </div>}
             </div>
         </>

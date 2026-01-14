@@ -9,9 +9,10 @@ function Navbar(){
             <span className="text-[#0504AA] bona-nova-sc-font font-bold tracking-[4px]" style={{
             }}>Qweegly</span>
         </div>
-        <nav className="mx-12 w-[578px] flex items-center">
-            <ul>
-                <Link to={'/'}><li className="w-24 h-8 rounded-[8px] bg-[#031273] text-white flex justify-center items-center roboto-font hover:bg-[#020936] ease-in-out duration-100 cursor-pointer font-bold">Home</li></Link>
+        <nav >
+            <ul className="mx-12 w-[578px] flex items-center h-full justify-center space-x-4">
+                <Link to={'/'}><li className="px-6 h-8 rounded-[8px] bg-[#031273] text-white flex justify-center items-center roboto-font hover:bg-[#020936] ease-in-out duration-100 cursor-pointer font-bold">Home</li></Link>
+                <Link to={'/dashboard'}><li className="px-6 h-8 rounded-[8px] bg-[#031273] text-white flex justify-center items-center roboto-font hover:bg-[#020936] ease-in-out duration-100 cursor-pointer font-bold">Dashboard</li></Link>
             </ul>
         </nav>
         <div className="buttons flex gap-x-8 items-center">

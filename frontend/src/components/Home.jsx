@@ -14,13 +14,14 @@ import review3 from "../assets/review3.png"
 import cta1 from "../assets/cta1.png"
 import cta2 from "../assets/cta2.png"
 import { Link } from "react-router-dom"
-
+import { useEffect,useState } from "react"
 function Home() {
-    let slide = 0;
+    let [updateSlide,setUpdateSlide] = useState(0)
     const animate = () => {
+        let slide = updateSlide 
         const reviews = document.getElementsByClassName('review')
         const circle = document.getElementsByClassName('circle')
-        if (slide > reviews.length - 1) {
+        if (updateSlide > reviews.length - 1) {
             for (let i = 0; i < reviews.length; i++) {
                 reviews[i].style.translate = "0px 0px"
             }
@@ -31,11 +32,13 @@ function Home() {
             circle[i].classList.remove("bg-black")
         }
         circle[slide].classList.add('bg-black')
-        slide++
+        setTimeout(() => {
+            setUpdateSlide(slide+1)
+        }, 5000);
     }
-    setInterval(() => {
+    useEffect(()=>{
         animate()
-    }, 5000);
+    },[updateSlide])
 
     return (
         <>

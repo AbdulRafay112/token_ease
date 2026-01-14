@@ -1,7 +1,13 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import sideImg from "../assets/sideImg.png"
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
+import AppContext from "../State/Context"
+
+
 function Login() {
+    const Context = useContext(AppContext)
+    const {updateUsername} = Context
+    const navigate = useNavigate(null)
     const [showPass, setShowPass] = useState(false)
     const [loading, setLoading] = useState(false)
     const [showAlert,setShowAlert] = useState(false)
@@ -46,11 +52,12 @@ function Login() {
             return null
         }
         const fetchData = await fetchUrl.json()
+        console.log(document.cookie)
         setAlertHeader('Congratulations!')
         setAlertText('User Log-in Successfully! Redirecting to Dashboard...')
         setShowAlert(true)
             setTimeout(() => {
-                console.log(fetchData)
+            navigate('/dashboard')
             }, 5000);
     }
     // checktoBackend()
@@ -84,8 +91,8 @@ function Login() {
                         </svg>
                     </div>
                 </div>}
-                {showAlert && <div className="px-8 py-4 my-4 items-center gap-x-16  absolute left-[30%] rounded-md roboto-font flex text-xl rounded-base bg-green-200" role="alert">
-                    <div className="flex gap-x-2"><span className="font-extrabold">{alertHeader}</span><span className="font-semibold">{alertText}</span> </div><svg onClick={()=>{clearTimeout(); setShowAlert(false)}} className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                {showAlert && <div className={`px-8 py-4 my-4 items-center gap-x-16  absolute left-[30%] rounded-md roboto-font flex text-xl rounded-base ${(alertHeader=='Invalid Input!'|| alertHeader=='Invalid Credentials!')? "bg-red-600" : "bg-green-600"} text-white`} role="alert">
+                    <div className="flex gap-x-2"><span className="font-extrabold">{alertHeader}</span><span className="font-semibold">{alertText}</span> </div><svg onClick={()=>{clearTimeout(); setShowAlert(false)}} className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
                 </div>}
             </div>
         </>

@@ -1,10 +1,22 @@
 from fastapi import APIRouter, Request, HTTPException, Depends
-from app.database import token_collection, dept_collection
+from database import token_collection, dept_collection
 from bson import ObjectId
-from app.utils import verify_organization
+from utils import verify_organization,parse_json
 
 
 token_route = APIRouter(prefix="/token", dependencies=[Depends(verify_organization)])
+
+
+@token_route.get("/")
+async def get_token(request:Request):
+    token_no  = request.query_params.get("token_no")
+    dept = request.query_params.get("dept")
+    token = token_collection.find_one({
+        "token_number" : int(token_no),
+        "dept_id" : ObjectId(dept) 
+    })
+    return parse_json(token)
+
 
 # 1. ADD TOKEN API
 @token_route.post("/generate")

@@ -1,19 +1,29 @@
 from fastapi import APIRouter,Request,HTTPException,Depends
-from app.database import  dept_collection
+from database import  dept_collection
 from bson import ObjectId 
-from app.utils import verify_organization , parse_json
+from utils import verify_organization , parse_json
 
 department_app = APIRouter(prefix="/department",dependencies=[Depends(verify_organization)])
 @department_app.get("/")
 def get_departments(request:Request):
             user_id = request.state.user_id
-            departments = dept_collection.find({
-                   "org_id" : user_id
-            })
-            listed_departments = list(departments)
-            if not listed_departments:
-                  raise HTTPException(status_code=200,detail="No Departments Yet")
-            return parse_json(listed_departments)
+            id = request.query_params.get("id")
+            is_valid_object  = ObjectId.is_valid(id)
+            if(not is_valid_object):
+                    raise HTTPException(status_code=400,detail="Not Access")
+            department= dept_collection.find_one({
+                    "_id" : ObjectId(id),
+                    "org_id" : user_id
+                  })
+            if (not department):
+                  raise HTTPException(status_code=400,detail="Not Access")
+            return parse_json(department)
+            # is_valid_object = ObjectId.is_valid()
+            # department = dept_collection.find({
+            #       "_id" : ObjectId()
+            #        "org_id" : user_id
+            # })
+
         
 @department_app.post("/")
 async def add_department(request:Request):
@@ -25,7 +35,7 @@ async def add_department(request:Request):
                   "org_id" : user_id
             })
             if department_exist:
-                  raise HTTPException(status_code=400,detail=f"{name} department already exists")
+                  raise HTTPException(status_code=400,detail="department already exists")
             created_department = dept_collection.insert_one({
                   "name" : name,
                   "org_id" : ObjectId(user_id),
@@ -33,9 +43,46 @@ async def add_department(request:Request):
                   "current_token" : 0,
                   "status" : True
             })
-            return {
-                  "the department added successfully", str(created_department.inserted_id)
+            department = {
+                    "name" : name,
+                    "_id" : created_department.inserted_id,
+                    "total_tokens" : 0,
+                    "current_token" : 0,
+                    "status" : True
             }
+
+            return parse_json(department)
+
+@department_app.put("/")
+async def change_dept(request:Request):
+            user_id = request.state.user_id
+            body = await request.json()
+            name = body['name']
+            print(name)
+            id = request.query_params.get("id")
+            is_valid_object  = ObjectId.is_valid(id)
+            if(not is_valid_object):
+                    raise HTTPException(status_code=400,detail="Not Access")
+            department_exist = dept_collection.find_one({
+                  "name" : name,
+                  "org_id" : user_id
+            })
+            if department_exist:
+                  raise HTTPException(status_code=400,detail=f"{name} department already exists")
+            
+            department = dept_collection.update_one(
+                    {"_id" : ObjectId(id)},
+                    {"$set" : {"name" : name}}
+                    )
+            
+            return {
+                    'name' : name
+            }
+            # is_valid_object = ObjectId.is_valid()
+            # department = dept_collection.find({
+            #       "_id" : ObjectId()
+            #        "org_id" : user_id
+            # })
 
             
 

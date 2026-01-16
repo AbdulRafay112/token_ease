@@ -1,8 +1,10 @@
-from fastapi import APIRouter , HTTPException , Response
-from app.schema.organization_schema import OrganizationCreate
-from app.database import org_collection # create connection with mongodb 
-from app.utils import get_password_hash , verify_password , create_access_token
-from app.utils import find_organization
+from fastapi import APIRouter , HTTPException , Response,Request
+from schema.organization_schema import OrganizationCreate,OrganizationLogin
+from database import org_collection # create connection with mongodb 
+from database import  dept_collection
+from utils import get_password_hash , verify_password , create_access_token
+from utils import find_organization
+from utils import verify_organization , parse_json
 
 router = APIRouter()
 
@@ -23,7 +25,7 @@ def signup(org: OrganizationCreate):
     }
 
 @router.post("/login")
-async def login(response: Response,org:OrganizationCreate):
+async def login(response: Response,org:OrganizationLogin):
     existing_user = find_organization(org.user_name)
     if not existing_user:
         raise HTTPException(status_code = 401 , detail = "invalid user name or password")
@@ -33,9 +35,25 @@ async def login(response: Response,org:OrganizationCreate):
     response.set_cookie(
         key = "access_token",
         value= access_token,
-        httponly= True , 
+        httponly= False , 
         max_age=3600 , 
-        samesite="lax",
-        secure=False 
+        samesite="none",
+        secure=True 
     )
-    return {"message":"login successful" , "org_name" : existing_user["user_name"] }
+    return {"message":"login successful"}
+
+@router.get("/org")
+def org_details(request:Request):
+            verify_organization(request)
+            user_id = request.state.user_id
+            user_name = request.state.user_name
+            departments = dept_collection.find({
+                   "org_id" : user_id
+            })
+            listed_departments = list(departments)
+            if not listed_departments:
+                  raise HTTPException(status_code=200,detail="No Departments Yet")
+            return parse_json({
+                 "user_name" : user_name,
+                 "departments" : listed_departments
+            })

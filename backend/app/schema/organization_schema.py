@@ -7,3 +7,7 @@ class OrganizationCreate(BaseModel):
     category: str 
 
 
+class OrganizationLogin(BaseModel):
+    user_name: str 
+    password: str
+

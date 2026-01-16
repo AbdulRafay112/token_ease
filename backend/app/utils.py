@@ -5,7 +5,7 @@ from jose import jwt
 from dotenv import load_dotenv
 import os 
 import json 
-from app.database import org_collection
+from database import org_collection
 from bson import ObjectId , json_util 
 
 # === password hash logic ===
@@ -59,4 +59,5 @@ def verify_organization(request: Request):
     if not authorize_user:
         raise HTTPException(status_code=400 , detail="Invalid Token")
     request.state.user_id = authorize_user["_id"]
+    request.state.user_name = authorize_user["user_name"]
 

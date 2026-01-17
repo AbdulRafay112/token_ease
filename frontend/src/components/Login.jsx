@@ -13,50 +13,102 @@ function Login() {
     const onShowPassClick = function () {
         setShowPass(e => !e)
     }
+    // const login = async () => {
+    //     const username = document.getElementById('username').value
+    //     const password = document.getElementById('password').value
+    //     if(username.length<1 || password.length<1){
+    //         setAlertHeader('Invalid Input!')
+    //         setAlertText('Please Enter Username and Password ')
+    //         setShowAlert(true)
+    //         setTimeout(() => {
+    //             setShowAlert(false)
+    //         }, 10000);
+    //         return null
+    //     }
+    //     setLoading(true)
+    //     const data = {
+    //         user_name: username,
+    //         password: password
+    //     }
+    //     console.log("before fetching url ")
+    //     const fetchUrl = await fetch('https://token-easebackend.vercel.app/login', {
+    //         method: "POST",
+    //         credentials: "include",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify(data)
+    //     })
+    //     console.log("fetched url successfully ")
+    //     setLoading(false)
+    //     if(fetchUrl.status == 401){
+    //         setAlertHeader('Invalid Credentials!')
+    //         setAlertText('Please Enter Correct Username and Password')
+    //         setShowAlert(true)
+    //         setTimeout(() => {
+    //             setShowAlert(false)
+    //         }, 10000);
+    //         return null
+    //     }
+    //     await fetchUrl.json()
+    //     setAlertHeader('Congratulations!')
+    //     setAlertText('User Log-in Successfully! Redirecting to Dashboard...')
+    //     setShowAlert(true)
+    //         setTimeout(() => {
+    //         navigate('/dashboard')
+    //         }, 5000);
+    // }
+
     const login = async () => {
         const username = document.getElementById('username').value
         const password = document.getElementById('password').value
-        if(username.length<1 || password.length<1){
-            setAlertHeader('Invalid Input!')
-            setAlertText('Please Enter Username and Password ')
-            setShowAlert(true)
-            setTimeout(() => {
-                setShowAlert(false)
-            }, 10000);
-            return null
-        }
         setLoading(true)
         const data = {
             user_name: username,
             password: password
         }
-        console.log("before fetching url ")
-        const fetchUrl = await fetch('https://token-easebackend.vercel.app/login', {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-        console.log("fetched url successfully ")
-        setLoading(false)
-        if(fetchUrl.status == 401){
-            setAlertHeader('Invalid Credentials!')
-            setAlertText('Please Enter Correct Username and Password')
+        
+        try {
+            console.log("Attempting login...")
+            
+            const fetchUrl = await fetch('https://token-easebackend.vercel.app/login', {
+                method: "POST",
+                credentials: "include", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+
+            console.log("Response received:", fetchUrl.status) 
+
+            if (fetchUrl.status == 401) {
+                setLoading(false)
+                setAlertHeader('Invalid Credentials!')
+                setAlertText('Please Enter Correct Username and Password')
+                setShowAlert(true)
+                setTimeout(() => setShowAlert(false), 5000)
+                return null
+            }
+
+
+            await fetchUrl.json()
+            setLoading(false)
+            setAlertHeader('Congratulations!')
+            setAlertText('User Log-in Successfully! Redirecting...')
             setShowAlert(true)
+            
             setTimeout(() => {
-                setShowAlert(false)
-            }, 10000);
-            return null
+                navigate('/dashboard')
+            }, 2000)
+
+        } catch (error) { 
+            console.log("LOGIN ERROR:", error)
+            setLoading(false)
+            setAlertHeader('Connection Error!')
+            setAlertText('Could not connect to server. Check CORS or Network.')
+            setShowAlert(true)
         }
-        await fetchUrl.json()
-        setAlertHeader('Congratulations!')
-        setAlertText('User Log-in Successfully! Redirecting to Dashboard...')
-        setShowAlert(true)
-            setTimeout(() => {
-            navigate('/dashboard')
-            }, 5000);
     }
     return (
         <>

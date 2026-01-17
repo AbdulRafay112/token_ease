@@ -10,7 +10,6 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     "https://token-ease-frontend.vercel.app", 
-    "*" 
 ]
 app.add_middleware(
         CORSMiddleware,

@@ -36,8 +36,9 @@ async def login(response: Response,org:OrganizationLogin):
         value=access_token,
         httponly=True,   
         max_age=3600,
-        samesite="lax",  
-        secure=False     
+        samesite="none",  
+        secure=True,
+        path="/"     
     )
     print("cookie set successfully")
     return {"message":"login successful"}

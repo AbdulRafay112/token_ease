@@ -1,5 +1,5 @@
 import {useState } from "react"
-import sideImg from "../assets/sideImg.png"
+import sideimg from "../assets/sideimg.png"
 import { Link,useNavigate } from "react-router-dom"
 
 
@@ -60,7 +60,7 @@ function Login() {
         <>
             <div className="container flex h-[704px] bg-[#C3C9EF]">
                 <div className="w-160 h-[528px] flex my-22 ml-24 justify-center items-center">
-                    <img className="w-[597.85px] h-[385.7px]" src={sideImg} alt="" /></div>
+                    <img className="w-[597.85px] h-[385.7px]" src={sideimg} alt="" /></div>
                 <div className="w-140 h-160 bg-white my-8 flex flex-col items-center rounded-[8px] mx-12">
                     <p className="text-[#0504AA] bona-nova-sc-font tracking-[4px] font-bold text-center">Qweekly</p>
                     <div className="username flex flex-col mb-8 inter-font font-semibold">

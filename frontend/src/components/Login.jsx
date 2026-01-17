@@ -30,6 +30,7 @@ function Login() {
             user_name: username,
             password: password
         }
+        console.log("before fetching url ")
         const fetchUrl = await fetch('https://token-easebackend.vercel.app/login', {
             method: "POST",
             credentials: "include",
@@ -38,6 +39,7 @@ function Login() {
             },
             body: JSON.stringify(data)
         })
+        console.log("fetched url successfully ")
         setLoading(false)
         if(fetchUrl.status == 401){
             setAlertHeader('Invalid Credentials!')

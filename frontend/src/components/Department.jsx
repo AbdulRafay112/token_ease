@@ -141,7 +141,7 @@ function Department() {
         let phone = whatsappData.phone.replace(/\D/g, '')
         if (phone.startsWith('0')) phone = '92' + phone.substring(1)
 
-        const text = `Assalam-u-Alaikum ${whatsappData.name}! Token Ease Alert: Apka Token Number *${whatsappData.token_number}* hai. Please counter par ajayen.`
+        const text = `Hi ${whatsappData.name}!: Your Token Number is *${whatsappData.token_number}* | which is 3 turns away kindly ensure your presence at ${username} ${department}.`
 
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
         window.open(url, '_blank')

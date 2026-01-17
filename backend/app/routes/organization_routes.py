@@ -24,6 +24,7 @@ def signup(org: OrganizationCreate):
 
 @router.post("/login")
 async def login(response: Response,org:OrganizationLogin):
+    print("inside login ==================== ")
     existing_user = find_organization(org.user_name)
     if not existing_user:
         raise HTTPException(status_code = 401 , detail = "invalid user name or password")

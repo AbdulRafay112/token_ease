@@ -10,10 +10,7 @@ app = FastAPI()
 origins = [
     "http://localhost:5173", 
     "http://localhost:3000",
-    "https://token-easefrontend.vercel.app", 
-    "https://token-ease-frontend.vercel.app",
-    "https://token-ease.vercel.app",
-    "https://token-ease-abdulrafay112.vercel.app" 
+    "https://token-easefrontend.vercel.app"
 ]
 
 app.add_middleware(

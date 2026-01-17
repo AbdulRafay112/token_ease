@@ -30,7 +30,7 @@ function Login() {
             user_name: username,
             password: password
         }
-        const fetchUrl = await fetch('http://localhost:8000/login', {
+        const fetchUrl = await fetch('https://token-easebackend.vercel.app/login', {
             method: "POST",
             credentials: "include",
             headers: {

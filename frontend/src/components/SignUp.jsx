@@ -53,7 +53,7 @@ function SignUp() {
             password: password,
             category : category || 'default'
         }
-        const fetchUrl = await fetch('http://localhost:8000/signup', {
+        const fetchUrl = await fetch('https://token-easebackend.vercel.app/signup', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

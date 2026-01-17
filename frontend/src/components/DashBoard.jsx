@@ -12,7 +12,7 @@ function DashBoard() {
         fetchOrgDetails()
     }, [])
     const fetchOrgDetails = async () => {
-        const fetchUrl = await fetch('http://localhost:8000/org', {
+        const fetchUrl = await fetch('https://token-easebackend.vercel.app/org', {
             method: "GET",
             credentials: "include"
         })
@@ -31,7 +31,7 @@ function DashBoard() {
           setAddAlertText('Enter Name')
      }
      else {
-        const fetchUrl = await fetch('http://localhost:8000/department',{
+        const fetchUrl = await fetch('https://token-easebackend.vercel.app/department',{
             method : "POST",
             credentials : "include",
             body : JSON.stringify({'name' : name.value})

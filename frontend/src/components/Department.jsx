@@ -34,7 +34,7 @@ function Department() {
     }, [currentToken])
 
     const fetchOrgDetails = async () => {
-        const fetchUrl = await fetch('http://localhost:8000/org', {
+        const fetchUrl = await fetch('https://token-easebackend.vercel.app/org', {
             method: "GET",
             credentials: "include"
         })
@@ -48,7 +48,7 @@ function Department() {
     }
 
     const fetchDepartment = async () => {
-        const fetchUrl = await fetch(`http://localhost:8000/department?id=${id}`, {
+        const fetchUrl = await fetch(`https://token-easebackend.vercel.app/department?id=${id}`, {
             method: "GET",
             credentials: "include"
         })
@@ -61,7 +61,7 @@ function Department() {
     }
 
     const fetchToken = async () => {
-        const fetchUrl = await fetch(`http://localhost:8000/token?token_no=${currentToken}&dept=${id}`, {
+        const fetchUrl = await fetch(`https://token-easebackend.vercel.app/token?token_no=${currentToken}&dept=${id}`, {
             method: "GET",
             credentials: "include"
         })
@@ -82,7 +82,7 @@ function Department() {
                 'phone_no': phone_no,
                 'dept_id': id
             }
-            const fetchUrl = await fetch('http://localhost:8000/token/generate', {
+            const fetchUrl = await fetch('https://token-easebackend.vercel.app/token/generate', {
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify(data)
@@ -102,7 +102,7 @@ function Department() {
     // === 1. Next Token API Call (Updated Logic) ===
     const callNextToken = async () => {
         try {
-            const fetchUrl = await fetch(`http://localhost:8000/token/next`, {
+            const fetchUrl = await fetch(`https://token-easebackend.vercel.app/token/next`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -162,7 +162,7 @@ function Department() {
                     e.target.innerHTML = oldDeptName
                     return null
                 }
-                const fetchUrl = await fetch(`http://localhost:8000/department?id=${id}`, {
+                const fetchUrl = await fetch(`https://token-easebackend.vercel.app/department?id=${id}`, {
                     method: "PUT",
                     credentials: "include",
                     body: JSON.stringify({

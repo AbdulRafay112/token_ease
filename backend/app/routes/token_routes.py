@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException, Depends
-from database import token_collection, dept_collection
+from app.database import token_collection, dept_collection
 from bson import ObjectId
-from utils import verify_organization,parse_json
+from app.utils import verify_organization,parse_json
 
 
 token_route = APIRouter(prefix="/token", dependencies=[Depends(verify_organization)])

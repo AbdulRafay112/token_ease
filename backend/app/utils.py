@@ -5,7 +5,7 @@ from jose import jwt
 from dotenv import load_dotenv
 import os 
 import json 
-from database import org_collection
+from app.database import org_collection
 from bson import ObjectId , json_util 
 
 # === password hash logic ===
@@ -33,6 +33,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 
 
 def create_access_token(data: dict):
+    print("inside access token")
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp":expire})

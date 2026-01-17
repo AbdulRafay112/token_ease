@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-// import '../css/fonts.css'
 function Navbar(){
     return (
         <>

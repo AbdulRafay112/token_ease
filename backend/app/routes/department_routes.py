@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Request,HTTPException,Depends
-from database import  dept_collection
+from app.database import  dept_collection
 from bson import ObjectId 
-from utils import verify_organization , parse_json
+from app.utils import verify_organization , parse_json
 
 department_app = APIRouter(prefix="/department",dependencies=[Depends(verify_organization)])
 @department_app.get("/")
@@ -18,11 +18,6 @@ def get_departments(request:Request):
             if (not department):
                   raise HTTPException(status_code=400,detail="Not Access")
             return parse_json(department)
-            # is_valid_object = ObjectId.is_valid()
-            # department = dept_collection.find({
-            #       "_id" : ObjectId()
-            #        "org_id" : user_id
-            # })
 
         
 @department_app.post("/")
@@ -70,7 +65,7 @@ async def change_dept(request:Request):
             if department_exist:
                   raise HTTPException(status_code=400,detail=f"{name} department already exists")
             
-            department = dept_collection.update_one(
+            dept_collection.update_one(
                     {"_id" : ObjectId(id)},
                     {"$set" : {"name" : name}}
                     )
@@ -78,11 +73,6 @@ async def change_dept(request:Request):
             return {
                     'name' : name
             }
-            # is_valid_object = ObjectId.is_valid()
-            # department = dept_collection.find({
-            #       "_id" : ObjectId()
-            #        "org_id" : user_id
-            # })
 
             
 

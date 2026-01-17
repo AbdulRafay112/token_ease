@@ -47,14 +47,13 @@ function SignUp() {
             return null
         }
         setLoading(true)
-        // const formdata = new FormData()
         const data = {
             user_name: username,
             email : email,
             password: password,
             category : category || 'default'
         }
-        const fetchUrl = await fetch('http://127.0.0.1:8000/signup', {
+        const fetchUrl = await fetch('http://localhost:8000/signup', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

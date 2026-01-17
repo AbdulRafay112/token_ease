@@ -1,12 +1,9 @@
-import { useContext, useState } from "react"
+import {useState } from "react"
 import sideImg from "../assets/sideImg.png"
 import { Link,useNavigate } from "react-router-dom"
-import AppContext from "../State/Context"
 
 
 function Login() {
-    const Context = useContext(AppContext)
-    const {updateUsername} = Context
     const navigate = useNavigate(null)
     const [showPass, setShowPass] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -33,7 +30,7 @@ function Login() {
             user_name: username,
             password: password
         }
-        const fetchUrl = await fetch('http://127.0.0.1:8000/login', {
+        const fetchUrl = await fetch('http://localhost:8000/login', {
             method: "POST",
             credentials: "include",
             headers: {
@@ -51,8 +48,7 @@ function Login() {
             }, 10000);
             return null
         }
-        const fetchData = await fetchUrl.json()
-        console.log(document.cookie)
+        await fetchUrl.json()
         setAlertHeader('Congratulations!')
         setAlertText('User Log-in Successfully! Redirecting to Dashboard...')
         setShowAlert(true)
@@ -60,8 +56,6 @@ function Login() {
             navigate('/dashboard')
             }, 5000);
     }
-    // checktoBackend()
-    // const [passwordType,setPasswordType] = 
     return (
         <>
             <div className="container flex h-[704px] bg-[#C3C9EF]">

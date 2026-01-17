@@ -1,10 +1,8 @@
 from fastapi import APIRouter , HTTPException , Response,Request
-from schema.organization_schema import OrganizationCreate,OrganizationLogin
-from database import org_collection # create connection with mongodb 
-from database import  dept_collection
-from utils import get_password_hash , verify_password , create_access_token
-from utils import find_organization
-from utils import verify_organization , parse_json
+from app.schema.organization_schema import OrganizationCreate,OrganizationLogin
+from app.database import org_collection , dept_collection # create connection with mongodb 
+from app.utils import get_password_hash , verify_password , create_access_token , find_organization , verify_organization , parse_json
+
 
 router = APIRouter()
 
@@ -33,13 +31,14 @@ async def login(response: Response,org:OrganizationLogin):
         raise HTTPException(status_code=401 , detail="invalid user name or password")
     access_token = create_access_token(data={"sub":str(existing_user["_id"])})
     response.set_cookie(
-        key = "access_token",
-        value= access_token,
-        httponly= False , 
-        max_age=3600 , 
-        samesite="none",
-        secure=True 
+        key="access_token",
+        value=access_token,
+        httponly=True,   
+        max_age=3600,
+        samesite="lax",  
+        secure=False     
     )
+    print("cookie set successfully")
     return {"message":"login successful"}
 
 @router.get("/org")
@@ -51,9 +50,7 @@ def org_details(request:Request):
                    "org_id" : user_id
             })
             listed_departments = list(departments)
-            if not listed_departments:
-                  raise HTTPException(status_code=200,detail="No Departments Yet")
             return parse_json({
-                 "user_name" : user_name,
-                 "departments" : listed_departments
-            })
+            "user_name": user_name,
+            "departments": listed_departments 
+    })

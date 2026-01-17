@@ -1,4 +1,3 @@
-import { useState,useCallback,useEffect,useRef} from 'react'
 import Navbar from './components/Navbar';
 import SignUp from './components/SignUp';
 import './css/fonts.css'

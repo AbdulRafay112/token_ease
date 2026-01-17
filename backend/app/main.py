@@ -1,9 +1,8 @@
-from fastapi import FastAPI ,Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.organization_routes import router
-from routes.department_routes import department_app
-from routes.token_routes import token_route
+from app.routes.organization_routes import router
+from app.routes.department_routes import department_app
+from app.routes.token_routes import token_route
 app = FastAPI()
 
 

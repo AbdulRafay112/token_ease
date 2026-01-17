@@ -1,10 +1,8 @@
-import { useContext, useEffect, useState } from "react"
-import AppContext from "../State/Context"
+import {useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 
 function DashBoard() {
-    const Context = useContext(AppContext)
     const [department, setDepartments] = useState([])
     const [username,setUsername] = useState()
     const [showAddPopUp,setShowAddPopUp] = useState(false)
@@ -14,7 +12,7 @@ function DashBoard() {
         fetchOrgDetails()
     }, [])
     const fetchOrgDetails = async () => {
-        const fetchUrl = await fetch('http://127.0.0.1:8000/org', {
+        const fetchUrl = await fetch('http://localhost:8000/org', {
             method: "GET",
             credentials: "include"
         })
@@ -33,7 +31,7 @@ function DashBoard() {
           setAddAlertText('Enter Name')
      }
      else {
-        const fetchUrl = await fetch('http://127.0.0.1:8000/department',{
+        const fetchUrl = await fetch('http://localhost:8000/department',{
             method : "POST",
             credentials : "include",
             body : JSON.stringify({'name' : name.value})
